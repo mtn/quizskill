@@ -4,6 +4,7 @@ click==6.7
 colorclass==2.2.0
 Flask==0.12.2
 formats==0.1.1
+gunicorn==19.7.1
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.9.6
