@@ -1,6 +1,6 @@
 from flask import Flask, request
+from os import environ
 import quizlet
-import json
 
 
 app = Flask(__name__)
@@ -13,13 +13,11 @@ def quizlet_handler():
 
         query = raw_data["request"]["intent"]["slots"]["query"]
 
-        with open("secrets.json","r") as secrets:
-            secrets = json.loads(secrets.read())
+        client_secret = environ.get('CLIENT_ID')
+        client = quizlet.QuizletClient(client_id=client_secret)
 
-            client = quizlet.QuizletClient(client_id=secrets['client_id'])
-
-            query_result = client.api.search.sets.get(params={ 'q': query })
-            print(query_result)
+        query_result = client.api.search.sets.get(params={ 'q': query })
+        print(query_result)
 
     return 'Hello, World!'
 
