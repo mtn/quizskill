@@ -6,22 +6,19 @@ import quizlet
 app = Flask(__name__)
 ask = Ask(app, '/')
 
+# Should be true on production
+app.config['ASK_VERIFY_REQUESTS'] = False
+
+@ask.intent("StudyIntent")
+def study_handler(topic):
+    speech_text = "Let's study %s" % topic
+    return statement(speech_text)
+
 
 if __name__ == '__main__':
     app.run()
 
-# @ask.intent('StudyIntent')
-# def hello():
-    # return statement("StudyIntent")
 
-# @ask.intent("StudyIntent")
-# def study_handler(topic):
-#     # speech_text = "Let's study %s" % topic
-#     speech_text = "This was invoked"
-#     return statement(speech_text)
-        #
-    #     if raw_data["request"]["intent"]["name"] == "StudyIntent":
-    #         query = raw_data["request"]["intent"]["slots"]["topic"]["value"]
     #
     #         client_secret = environ.get('CLIENT_ID')
     #         client = quizlet.QuizletClient(client_id=client_secret)
