@@ -2,6 +2,7 @@ from flask_ask import Ask, statement
 from flask import Flask, request
 from os import environ
 import quizlet
+import random
 
 app = Flask(__name__)
 ask = Ask(app, '/')
@@ -19,21 +20,19 @@ def new_session():
 
 @ask.intent("StudyIntent")
 def study_handler(topic):
-    speech_text = "Alright, let's study %s" % topic
-
     client_secret = environ.get('CLIENT_ID')
     client = quizlet.QuizletClient(client_id=client_secret)
 
     query_result = client.api.search.sets.get(params={ 'q': query })
 
-    return statement(speech_text)
+    return question(render_template())
 
 @ask.session_ended
 def session_end_handler():
+    log.info('Session ended')
     return "", 200
 
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-    #         print(query_result)

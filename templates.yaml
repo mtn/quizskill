@@ -1,0 +1,11 @@
+want_another: Want to try another term?
+
+no_more: Alright! See you later.
+
+term_1: What does {{ term }} mean?
+
+term_2: How about {{ term }}?
+
+term3: Try {{ term }}.
+
+confirm_topic: You want to study {{ topic }}, right?
