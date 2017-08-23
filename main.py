@@ -94,7 +94,7 @@ def term_handler(response=None):
     old_def = session.attributes['last_def']
     session.attributes['last_def'] = user_set['terms'][ind]['definition']
 
-    return question(render_template("term1_c",
+    return question(render_template(template,
                     old_def=old_def,
                     next_term=next_term))
 
