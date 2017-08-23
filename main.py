@@ -8,7 +8,7 @@ app = Flask(__name__)
 ask = Ask(app, '/')
 
 # Should be true on production
-app.config['ASK_VERIFY_REQUESTS'] = False
+# app.config['ASK_VERIFY_REQUESTS'] = False
 
 template_correct = [ "term1_c", "term2_c", "term3_c" ]
 template_incorrect = [ "term1_i", "term2_i", "term3_i" ]
@@ -90,7 +90,13 @@ def term_handler(response=None):
         session.attributes['last_ind'] = 0
 
     ind = session.attributes['last_ind']
-    next_term = user_set['terms'][ind]['term']
+    try:
+        next_term = user_set['terms'][ind]['term']
+    except IndexError:
+        return statement(render_template('finished',
+                         correct=correct,
+                         definition=session.attributes['last_def']))
+
     old_def = session.attributes['last_def']
     session.attributes['last_def'] = user_set['terms'][ind]['definition']
 
