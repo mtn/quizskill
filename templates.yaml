@@ -8,4 +8,4 @@ term_2: How about {{ term }}?
 
 term3: Try {{ term }}.
 
-confirm_topic: You want to study {{ topic }}, right?
+confirm_topic: Alright, let's study {{ topic }}. Your first term is {{ term }}.
