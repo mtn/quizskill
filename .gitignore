@@ -101,5 +101,6 @@ ENV/
 *.swp
 
 test.json
+test_session.json
 .env
 

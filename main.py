@@ -28,9 +28,9 @@ def study_handler(topic):
 
     use = False
     while not use:
-        ind = random.randint(0,len(query_result['sets']))
-        session.attributes['set_id'] = query_result['sets'][ind]['id']
-        user_set = client.api.sets.get(session.attributes['set_id'])
+        choice = random.choice(query_result['sets'])
+        session.attributes['set_id'] = choice['id']
+        user_set = client.api.sets.get(choice['id'])
 
         check = min(len(user_set['terms']),20)
         use = True
@@ -47,17 +47,22 @@ def study_handler(topic):
 
 @ask.intent("GetTerm")
 def term_handler(response=None):
-    if 'topic' not in session.attributes:
+    client_secret = environ.get('CLIENT_ID')
+    client = quizlet.QuizletClient(client_id=client_secret)
+
+    if 'topic' not in session.attributes or response == None:
         return question("Sorry, what do you want me to help you study?")
 
     topic = session.attributes['topic']
     query_result = client.api.search.sets.get(params={ 'q': topic })
+    user_set = None
 
     if 'set_id' not in session.attributes:
         use = False
         while not use:
-            ind = random.randint(0,len(query_result['sets']))
-            session.attributes['set_id'] = query_result['sets'][ind]['id']
+            choice = random.choice(query_result['sets'])
+            session.attributes['set_id'] = choice['id']
+            user_set = client.api.sets.get(choice['id'])
 
             check = min(len(user_set['terms']),20)
             use = True
@@ -65,24 +70,33 @@ def term_handler(response=None):
                 if user_set['terms'][i]['definition'] == '':
                     use = False
                     break
+    else:
+        user_set = client.api.sets.get(session.attributes['set_id'])
 
+    correct = True
     if 'last_def' in session.attributes:
-        return response == session.attributes['last_def']
-    return "hi"
+        for word in response.split(' '):
+            if word not in session.attributes['last_def'].split(' '):
+                correct = False
 
-    # session.attributes['last_def'] = user_set['terms'][0]['definition']
-    # if 'last_ind' in session_attributes:
-    #     session_attributes['last_ind'] = session_attributes['last_ind'] + 1
-    # else:
-    #     session_attributes['last_ind'] = 0
+    if correct:
+        template = random.choice(template_correct)
+    else:
+        template = random.choice(template_incorrect)
 
-    # template_ind = random.randint(0,3)
+    if 'last_ind' in session.attributes:
+        session.attributes['last_ind'] = session.attributes['last_ind'] + 1
+    else:
+        session.attributes['last_ind'] = 0
 
+    ind = session.attributes['last_ind']
+    next_term = user_set['terms'][ind]['term']
+    old_def = session.attributes['last_def']
+    session.attributes['last_def'] = user_set['terms'][ind]['definition']
 
-
-
-
-
+    return question(render_template("term1_c",
+                    old_def=old_def,
+                    next_term=next_term))
 
 
 if __name__ == '__main__':

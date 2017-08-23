@@ -1,15 +1,15 @@
 no_more: Alright! See you later.
 
-term1_c: Correct! What does {{ term }} mean?
+term1_c: Correct, {{ old_def }}! What does {{ next_term }} mean?
 
-term2_c: That's right. How about {{ term }}?
+term2_c: That's right, {{ old_def }}. How about {{ next_term }}?
 
-term3_c: Yep. Now try {{ term }}.
+term3_c: Yep. The definition was {{ old_def }}. Now try {{ next_term }}.
 
-term1_i: That wasn't right. The correct definition was {{ definition }}. What does {{ term }} mean?
+term1_i: That wasn't right. The correct definition was {{ old_def }}. What does {{ next_term }} mean?
 
-term2_i: That wasn't right. The definition was actually {{ definition }}. How about {{ term }}?
+term2_i: That wasn't right. The definition was actually {{ old_def }}. How about {{ next_term }}?
 
-term3_i: Not quite. Actually, it was {{ definition }}. Now try {{ term }}.
+term3_i: Not quite. Actually, it was {{ old_def }}. Now try {{ next_term }}.
 
 confirm_topic: Alright, let's study {{ topic }}. Your first term is {{ term }}.
