@@ -10,6 +10,9 @@ ask = Ask(app, '/')
 # Should be true on production
 app.config['ASK_VERIFY_REQUESTS'] = False
 
+template_correct = [ "term1_c", "term2_c", "term3_c" ]
+template_incorrect = [ "term1_i", "term2_i", "term3_i" ]
+
 @ask.launch
 def launch_handler():
     return question("Welcome to study helper. What do you want help studying?")
@@ -23,30 +26,61 @@ def study_handler(topic):
 
     query_result = client.api.search.sets.get(params={ 'q': topic })
 
-    while True:
+    use = False
+    while not use:
         ind = random.randint(0,len(query_result['sets']))
         session.attributes['set_id'] = query_result['sets'][ind]['id']
         user_set = client.api.sets.get(session.attributes['set_id'])
 
-        if not user_set['terms'][0]['definition'] == '':
-            break
+        check = min(len(user_set['terms']),20)
+        use = True
+        for i in range(0,check):
+            if user_set['terms'][i]['definition'] == '':
+                use = False
+                break
 
     session.attributes['last_ind'] = 0
+    session.attributes['last_def'] = user_set['terms'][0]['definition']
     return question(render_template('confirm_topic',
                     topic=topic,
                     term=user_set['terms'][0]['term']))
 
 @ask.intent("GetTerm")
-def term_handler():
+def term_handler(response=None):
     if 'topic' not in session.attributes:
         return question("Sorry, what do you want me to help you study?")
 
     topic = session.attributes['topic']
+    query_result = client.api.search.sets.get(params={ 'q': topic })
 
-    if 'id' not in session.attributes:
-        query_result = client.api.search.sets.get(params={ 'q': topic })
-        ind = random.randint(0,len(query_result['sets']))
-        session.attributes['id'] = query_result['sets'][ind]['id']
+    if 'set_id' not in session.attributes:
+        use = False
+        while not use:
+            ind = random.randint(0,len(query_result['sets']))
+            session.attributes['set_id'] = query_result['sets'][ind]['id']
+
+            check = min(len(user_set['terms']),20)
+            use = True
+            for i in range(0,check):
+                if user_set['terms'][i]['definition'] == '':
+                    use = False
+                    break
+
+    if 'last_def' in session.attributes:
+        return response == session.attributes['last_def']
+    return "hi"
+
+    # session.attributes['last_def'] = user_set['terms'][0]['definition']
+    # if 'last_ind' in session_attributes:
+    #     session_attributes['last_ind'] = session_attributes['last_ind'] + 1
+    # else:
+    #     session_attributes['last_ind'] = 0
+
+    # template_ind = random.randint(0,3)
+
+
+
+
 
 
 
@@ -54,7 +88,3 @@ def term_handler():
 if __name__ == '__main__':
     app.run()
 
-
-    #         print(query_result)
-    #
-    # return 'Hello, World!'

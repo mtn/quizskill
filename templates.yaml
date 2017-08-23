@@ -1,11 +1,15 @@
-want_another: Want to try another term?
-
 no_more: Alright! See you later.
 
-term_1: What does {{ term }} mean?
+term1_c: Correct! What does {{ term }} mean?
 
-term_2: How about {{ term }}?
+term2_c: That's right. How about {{ term }}?
 
-term3: Try {{ term }}.
+term3_c: Yep. Now try {{ term }}.
+
+term1_i: That wasn't right. The correct definition was {{ definition }}. What does {{ term }} mean?
+
+term2_i: That wasn't right. The definition was actually {{ definition }}. How about {{ term }}?
+
+term3_i: Not quite. Actually, it was {{ definition }}. Now try {{ term }}.
 
 confirm_topic: Alright, let's study {{ topic }}. Your first term is {{ term }}.
