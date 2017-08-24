@@ -14,4 +14,6 @@ term3_i: "Not quite. Actually, it was {{ old_def }}. Now try {{ next_term }}."
 
 finished: "{% if correct %} That's right, {{ definition }}. {% else  %} Actually, it's {{ definition }}. {% endif %} That's all for this set!"
 
-confirm_topic: "Alright, let's study {{ topic }}. Your first term is {{ term }}."
+confirm_topic: "Alright, let's study {{ topic }}. Your first term is {{ term }}. What does {{ term }} mean?"
+
+topic_failure: "Sorry, I couldn't find any flashcards about {{ topic }}. Please try something else or repeat the request if you think I misheard"

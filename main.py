@@ -25,6 +25,8 @@ def study_handler(topic):
     client = quizlet.QuizletClient(client_id=client_secret)
 
     query_result = client.api.search.sets.get(params={ 'q': topic })
+    if len(query_result['sets']) == 0:
+        return question(render_template(topic_failure,topic=topic))
 
     use = False
     while not use:
@@ -103,6 +105,19 @@ def term_handler(response=None):
     return question(render_template(template,
                     old_def=old_def,
                     next_term=next_term))
+
+@ask.intent("AMAZON.HelpIntent")
+def help_handler():
+    help_response = """
+        Welcome to study bot! Study bot can help you study a topic of your choice by walking you through flash cards term by term. Get started with a phrase like Help me study physics.
+    """
+
+    return question(help_response)
+
+@ask.intent("AMAZON.StopIntent")
+@ask.intent("AMAZON.CancelIntent")
+def stop_handler():
+    return statement("Stopping. Goodbye!")
 
 
 if __name__ == '__main__':
