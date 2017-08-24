@@ -108,9 +108,7 @@ def term_handler(response=None):
 
 @ask.intent("AMAZON.HelpIntent")
 def help_handler():
-    help_response = """
-        Welcome to study bot! Study bot can help you study a topic of your choice by walking you through flash cards term by term. Get started with a phrase like Help me study physics.
-    """
+    help_response = """Welcome to study bot! Study bot can help you study a topic of your choice by walking you through flash cards term by term. Get started with a phrase like Help me study physics."""
 
     return question(help_response)
 
