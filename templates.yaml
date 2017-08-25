@@ -16,4 +16,6 @@ finished: "{% if correct %} That's right, {{ definition }}. {% else  %} Actually
 
 confirm_topic: "Alright, let's study {{ topic }}. Your first term is {{ term }}. What does {{ term }} mean?"
 
-topic_failure: "Sorry, I couldn't find any flashcards about {{ topic }}. Please try something else or repeat the request if you think I misheard"
+topic_failure: "Sorry, I couldn't find any flashcards about {{ topic }}. Please either try something else or repeat the request if you think I misheard"
+
+no_topic: "Sorry, I didn't hear you provide any topic. Please repeat the query."

@@ -20,13 +20,15 @@ def launch_handler():
 @ask.intent("StudyIntent")
 def study_handler(topic):
     session.attributes['topic'] = topic
+    if topic == None:
+        return question(render_template('no_topic'))
 
     client_secret = environ.get('CLIENT_ID')
     client = quizlet.QuizletClient(client_id=client_secret)
 
     query_result = client.api.search.sets.get(params={ 'q': topic })
     if len(query_result['sets']) == 0:
-        return question(render_template(topic_failure,topic=topic))
+        return question(render_template('topic_failure',topic=topic))
 
     use = False
     while not use:
@@ -52,8 +54,10 @@ def term_handler(response=None):
     client_secret = environ.get('CLIENT_ID')
     client = quizlet.QuizletClient(client_id=client_secret)
 
-    if 'topic' not in session.attributes or response == None:
+    if 'topic' not in session.attributes:
         return question("Sorry, what do you want me to help you study?")
+    elif response == None:
+        return question("Sorry, I didn't hear your response. Please repeat yourself.")
 
     topic = session.attributes['topic']
     query_result = client.api.search.sets.get(params={ 'q': topic })
