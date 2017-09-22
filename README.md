@@ -9,4 +9,4 @@ Quizskill is a toy Alexa skill to help study flashcards. Given a user-provided t
 
 ## License
 
-See [LICENSE](LICENSE.md)
+See [LICENSE](LICENSE)
