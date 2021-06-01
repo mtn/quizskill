@@ -27,5 +27,5 @@ requests==2.18.4
 s3transfer==0.1.10
 six==1.10.0
 tortilla==0.4.2
-urllib3==1.22
+urllib3==1.26.5
 Werkzeug==0.12.2
